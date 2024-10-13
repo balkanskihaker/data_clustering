@@ -2,13 +2,17 @@
 <br>
 <p>Need to construct image of tissue and to cluster cells into x clusters.</p>
 <p>Dataset contains following columns: <b>geneID, x, y, MIDCount, ExonCount, CellID</b><br>and contains more than 8 million rows. All values are int64 by default.</p>
-<br>
 <p>I'm working on two different machines so that's why are there two codes, <b>cupy.ipynb</b> and <b>numpy.ipynb</b>,
-difference is that I'm using nvidia gpu for heavy workload in one and in the other I don't, respectively.</p>
+difference is that I'm using nvidia gpu in one and in the other I do not, respectively.</p>
 <p>Before starting preprocessing data I'm changing data type from int64 to uint16 and uint8 to reduce memory footprint</p>
 <p>First step is to extract unique cells and genes for creation of <b>cell-gene</b> matrix that will be filled with <b>MIDCount.</b></p>
 <p>Next problem is to find the fastest way to fill that matrix with <b>MIDCount</b> because of it's dimensions 62725 by 20753, or more than 1.3 billion of values to be filled.
 The fastest way I found is by using <b>pandas.Factorize</b> creates numerical values that maps to actual values.</p>
+<p>Number of genes can be reduced and that will improve performance but with the cost of percision.
+Row x is compared to all other rows after it, if they are matching at least <b>similarity</b>, percentage manualy set, the second one will be dropped.
+As iteration goes, there's less rows to compare because it does not compare rows before the row that's compared to. 
+Only problem is trade-off between precision and performance. I set <b>similarity</b> percentage to 0.999 or 63 values from 62725 can be mismatched.
+That cuts almost half of the rows.
 <p>Now that matrix needs to be loged to minimize distance between values, before loging I'm upgrading data type to float32 to get better precision.
 Problem is that I can not load 1.3 billion float32 values in gpu at once, limited memory, so I splited loging into two parts.
 In numpy code that's not a problem because there's enough of ram, and virtual memory if needed, but I still left the code to log in two parts.</p>
