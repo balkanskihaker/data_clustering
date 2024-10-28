@@ -1,5 +1,3 @@
-
-
 kmeans - unloged_reduced_pca_095.csv
 
 number of clusters - silhouette score
@@ -11,6 +9,7 @@ number of clusters - silhouette score
 16, 0.0172
 14, 0.0598
 
+----
 
 kmeans - reduced_loged_pca_095.csv
 
@@ -23,6 +22,7 @@ number of clusters - silhouette score
 15,-0.0895
 14,-0.1158
 
+----
 
 kmeans - unloged_reduced_pca_2000.csv
 
